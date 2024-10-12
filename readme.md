@@ -56,6 +56,17 @@ The script will:
 - Cycle through your preferred sinks and set the next sink as the default.
 - Move all currently playing audio streams to the newly selected default sink.
 
+### Adding the Script to a Keyboard Shortcut
+
+To quickly switch audio sinks, you can add the script to a keyboard shortcut:
+
+1. **Open Keyboard Settings**: On most Linux desktop environments, go to *Settings* > *Keyboard* > *Shortcuts*.
+2. **Add a Custom Shortcut**:
+   - Click on *Add Shortcut*.
+   - Set the *Name* to "Audio Sink Switcher".
+   - Set the *Command* to the full path of the script, e.g., `/home/yourusername/audio-sink-switcher/audio_sink_switcher.sh`.
+   - Assign a keyboard combination (e.g., `Ctrl` + `Alt` + `A`) to run the script instantly.
+
 ## Configuration
 
 - **Configuration File**: The script stores the preferred sinks in `~/.config/audio_sink_switcher.conf`. You can edit this file manually if needed or use the script to reselect sinks.
