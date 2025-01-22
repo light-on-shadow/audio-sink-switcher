@@ -2,6 +2,25 @@
 
 # Configuration file to store desired sinks
 config_file="$HOME/.config/audio_sink_switcher.conf"
+timestamp_file="/tmp/sink_cycle_timestamp"
+
+# Check for double-press
+if [ -f "$timestamp_file" ]; then
+    last_ts=$(cat "$timestamp_file")
+    current_ts=$(date +%s%N)
+    time_diff=$((current_ts - last_ts))
+    
+    # If pressed within 500ms (500000000 nanoseconds)
+    if [ $time_diff -lt 120000000 ]; then
+        rm -f "$config_file"
+        rm -f "$timestamp_file"
+        select_desired_sinks
+    else
+        echo "$current_ts" > "$timestamp_file"
+    fi
+else
+    date +%s%N > "$timestamp_file"
+fi
 
 # Function to prompt user to select desired sinks
 select_desired_sinks() {
@@ -101,9 +120,6 @@ sink_inputs=$(pactl list short sink-inputs | awk '{print $1}')
 for input in $sink_inputs; do
     pactl move-sink-input "$input" "$next_sink"
 done
-
-# Notify the user
-zenity --notification --text="Default sink set to: $next_sink"
 
 echo "Default sink set to: $next_sink"
 
